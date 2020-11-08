@@ -19,7 +19,7 @@
 		<!-- Producto #1 -->
 		<div class="product-grid">
 			<div class="content_box">
-				<a href="producto.php">
+				<a href="index.php?page=producto">
 					<div class="left-grid-view grid-view-left">
 						<img src="images/productos/P001.jpg" class="img-responsive watch-right" alt=""/>
 					</div>
@@ -32,7 +32,7 @@
 		<!-- Producto #2 -->
 		<div class="product-grid">
 			<div class="content_box">
-				<a href="producto.php">
+				<a href="index.php?page=producto">
 					<div class="left-grid-view grid-view-left">
 						<img src="images/productos/P002.jpg" class="img-responsive watch-right" alt=""/>
 					</div>
@@ -45,7 +45,7 @@
 		<!-- Producto #3 -->
 		<div class="product-grid">
 			<div class="content_box">
-				<a href="producto.php">
+				<a href="index.php?page=producto">
 					<div class="left-grid-view grid-view-left">
 						<img src="images/productos/P003.jpg" class="img-responsive watch-right" alt=""/>
 					</div>

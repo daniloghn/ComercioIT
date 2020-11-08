@@ -1,8 +1,13 @@
-<?php	include 'header.php'; ?>
+<?php	
+include 'header.php'; 
+?>
 
 <div class="container">
 	<section id="page">
-		<?php include 'inicio.php'; ?>
+		<?php
+		$page = $_GET[page]; 
+		include($page . ".php");
+		?>
 	</section>
 	<div class="clearfix"></div>
 </div>

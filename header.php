@@ -19,7 +19,7 @@
 			<div class="bottom-header">
 				<div class="container">
 					<div class="header-bottom-left">
-						<div class="logo"><a href="index.php">Comercio<strong>IT</strong></a></div>
+						<div class="logo"><a href="index.php?page=inicio">Comercio<strong>IT</strong></a></div>
 						<!--div class="search">
 							<input type="text" name="q">
 							<input type="submit" value="BUSCAR">
@@ -31,11 +31,11 @@
 							<a href="ingreso.html"><span></span> TU CUENTA</a>
 						</div-->
 						<ul class="login">
-							<li><a href="ingreso.php"><span></span> INGRESAR</a></li>
+							<li><a href="index.php?page=ingreso"><span></span> INGRESAR</a></li>
 							&nbsp;|&nbsp;
-							<li><a href="registro.php">REGISTRARME</a></li>
+							<li><a href="index.php?page=registro">REGISTRARME</a></li>
 							&nbsp;|&nbsp;
-							<li><a href="contacto.php">CONTACTO</a></li>
+							<li><a href="index.php?page=contacto">CONTACTO</a></li>
 						</ul>
 						<!--div class="cart"><a href="#"><span></span>CART</a></div-->
 						<div class="clearfix"></div>
