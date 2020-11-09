@@ -1,16 +1,13 @@
 <?php	
 include 'header.php'; 
+require_once 'functions.php';
+$page = $_GET[page];
 ?>
 
 <div class="container">
 	<section id="page">
 		<?php
-		if (isset($_GET[page])) {
-			$page = $_GET[page]; 
-			include($page . ".php");
-		} else {
-			include 'inicio.php';
-		}
+			CargarPagina($page);
 		?>
 	</section>
 	<div class="clearfix"></div>
