@@ -5,8 +5,12 @@ include 'header.php';
 <div class="container">
 	<section id="page">
 		<?php
-		$page = $_GET[page]; 
-		include($page . ".php");
+		if (isset($_GET[page])) {
+			$page = $_GET[page]; 
+			include($page . ".php");
+		} else {
+			include 'inicio.php';
+		}
 		?>
 	</section>
 	<div class="clearfix"></div>
