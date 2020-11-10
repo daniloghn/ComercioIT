@@ -1,14 +1,17 @@
 <?php	
 include 'header.php'; 
 require_once 'functions.php';
-$page = $_GET[page];
-$rta = $_GET[rta];
+
+if (isset($_GET["page"])) {
+	$page = $_GET["page"];
+} else {
+	$page = "inicio";
+}
 ?>
 
 <div class="container">
 	<section id="page">
 		<?php
-		MostrarMensaje($rta);
 		CargarPagina($page);
 		?>
 	</section>

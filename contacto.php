@@ -1,3 +1,10 @@
+<?php
+/*Mensaje de error por envio de formulario*/
+if (isset($_GET["rta"])) {
+	echo MostrarMensaje($_GET["rta"]);
+}
+?>
+
 <div class="main"> 
 	<div class="reservation_top">
 		<div class=" contact_right">
