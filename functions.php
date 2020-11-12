@@ -27,3 +27,22 @@ function MostrarMensaje($rta)
     }    
     return "<p class='rta rta-". $rta . "'>" . $mensaje . "</p>";
 }
+
+/*funcion para Mostrar Productos*/
+
+function MostrarProductos()
+{
+    $archivo = "listadoProductos.csv";
+    $fp = fopen($archivo, 'r');
+    $flag = false;
+    $encabezado = array();
+
+    while ($linea = fgetcsv($fp)) {
+        if (!$flag) {
+            $encabezado = $linea;
+            $flag = true;
+        }
+        var_dump($linea);
+    }
+    fclose($fp);
+}

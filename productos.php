@@ -1,3 +1,7 @@
+<?php
+	MostrarProductos();
+?>
+
 <div class="cat-product">
 	<div class="w_content">
 		<div class="women">
