@@ -2,6 +2,11 @@
 /* funcion para cargar la pagina */
 function CargarPagina($page)
 {
+    if (isset($_GET["page"])) {
+        $page = $_GET["page"];
+    } else {
+        $page = "inicio";
+    }
     return include($page . ".php");    
 }
 
@@ -31,18 +36,27 @@ function MostrarMensaje($rta)
 /*funcion para Mostrar Productos*/
 
 function MostrarProductos()
-{
-    $archivo = "listadoProductos.csv";
-    $fp = fopen($archivo, 'r');
-    $flag = false;
-    $encabezado = array();
-
-    while ($linea = fgetcsv($fp)) {
-        if (!$flag) {
-            $encabezado = $linea;
-            $flag = true;
+{    
+    $archivo = fopen("listadoProductos.csv", 'r');
+    if ($archivo) {
+        while ($datos = fgetcsv($archivo, 1000)) {
+            ?>
+            <div class="product-grid">
+                <div class="content_box">
+                    <a href="index.php?page=producto">
+                        <div class="left-grid-view grid-view-left">
+                            <img src="images/productos/<?php echo $datos[0]; ?>.jpg" class="img-responsive watch-right" alt=""/>
+                        </div>
+                    </a>
+                    <h4><a href="#"><?php echo $datos[4] . " ". $datos[1] . " ". $datos[5]; ?></a></h4>
+                    <p>Stock: <?php echo $datos[3]; ?></p>
+                    <span>$<?php echo $datos[2]; ?></span>
+                </div>
+            </div>
+            <?php
         }
-        var_dump($linea);
+    } else {
+        echo "El archivo No se abrio";
     }
-    fclose($fp);
+    fclose($archivo);
 }
