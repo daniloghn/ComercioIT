@@ -3,7 +3,12 @@
 function CargarPagina($page)
 {
     if (isset($_GET["page"])) {
-        $page = $_GET["page"];
+        $modulo =$_GET["page"] . ".php";       
+        if (file_exists($modulo)) {
+            $page = $_GET["page"];
+        } else {
+            $page = "404";
+        }
     } else {
         $page = "inicio";
     }
