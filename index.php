@@ -1,6 +1,7 @@
-<?php	
-include 'header.php'; 
-require_once 'functions.php';
+<?php
+require 'include/connection.php';
+require 'include/functions.php';
+include 'template/header.php'; 
 ?>
 
 <div class="container">
@@ -12,4 +13,4 @@ require_once 'functions.php';
 	<div class="clearfix"></div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include 'template/footer.php'; ?>

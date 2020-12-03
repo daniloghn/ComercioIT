@@ -1,3 +1,8 @@
+<?php
+RegistroCliente($pdo, $nombre, $apellido, $email, $pass);
+
+?>
+
 <div class="register">
 	<div class="register-top-grid">
 		<h3>NUEVO USUARIO</h3>

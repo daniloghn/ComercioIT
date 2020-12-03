@@ -65,3 +65,23 @@ function MostrarProductos()
     }
     fclose($archivo);
 }
+
+// funcion para registrar un nuevo cliente
+function RegistroCliente($pdo, $nombre, $apellido, $email, $pass)
+{
+    // Validar conexion por metodo POST
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Recolexion de variables
+        $nombre = isset($_REQUEST['nombre']) ? $_REQUEST['nombre'] : null;
+        $apellido = isset($_REQUEST['apellido']) ? $_REQUEST['apellido'] : null;
+        $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
+        $pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;
+        $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
+        $date = new DateTime('', new DateTimeZone('America/Tegucigalpa'));
+        $dateSignon = $date -> format('Y-m-d');
+        echo $dateSignon;
+
+        // Preparacion de la consulta
+        $query = 'INSERT INTO val_clientes (nombre, apellido, email, password, val_hash, date_signon) VALUES (:nombre, :apellido, :email, :password, :val_hash, :date_signon)';
+    }
+}
