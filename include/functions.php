@@ -67,21 +67,50 @@ function MostrarProductos()
 }
 
 // funcion para registrar un nuevo cliente
-function RegistroCliente($pdo, $nombre, $apellido, $email, $pass)
+function RegistroCliente($nombre, $apellido, $email, $pass)
 {
+    require 'include/connection.php';
     // Validar conexion por metodo POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Recolexion de variables
         $nombre = isset($_REQUEST['nombre']) ? $_REQUEST['nombre'] : null;
         $apellido = isset($_REQUEST['apellido']) ? $_REQUEST['apellido'] : null;
         $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
-        $pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;
-        $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
-        $date = new DateTime('', new DateTimeZone('America/Tegucigalpa'));
-        $dateSignon = $date -> format('Y-m-d');
-        echo $dateSignon;
+        $pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;        
 
-        // Preparacion de la consulta
-        $query = 'INSERT INTO val_clientes (nombre, apellido, email, password, val_hash, date_signon) VALUES (:nombre, :apellido, :email, :password, :val_hash, :date_signon)';
+        try {
+            // Validacion de que él email existe
+            $queryVal = "SELECT * FROM clientes WHERE email = :email";
+            $stmtVal = $pdo->prepare($queryVal);
+            $stmtVal->execute([
+                'email' => $email
+            ]);
+            $resultadoVal = $stmtVal->rowCount();           
+            if ($resultadoVal > 0) {
+                echo "<p class='rta rta-0x007'>La cuenta ya existe</p>";;
+            } elseif ($resultadoVal == 0) {
+                $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
+                $date = new DateTime('', new DateTimeZone('America/Tegucigalpa'));
+                $dateSignon = $date -> format('Y-m-d h:i:s');
+                
+                // Generacion del token
+                $token = bin2hex(openssl_random_pseudo_bytes(16));
+
+                // Preparacion de la consulta para insertar datos
+                $queryIns = 'INSERT INTO clientes (nombre, apellido, email, password, date_signon, token, validado) VALUES (:nombre, :apellido, :email, :pass_hash, :dateSignon, :token, :validado)';
+                $stmtIns = $pdo->prepare($queryIns);
+                $stmtIns->execute([
+                    'nombre' => $nombre, 
+                    'apellido' => $apellido, 
+                    'email' => $email, 
+                    'pass_hash' => $pass_hash, 
+                    'dateSignon' => $dateSignon, 
+                    'token' => $token, 
+                    'validado' => 0
+                ]);
+            }
+        } catch (\Throwable $th) {
+            // echo $th->getMessage();
+        }
     }
 }

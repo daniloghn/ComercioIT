@@ -1,5 +1,4 @@
 <?php
-require 'include/connection.php';
 require 'include/functions.php';
 include 'template/header.php'; 
 ?>

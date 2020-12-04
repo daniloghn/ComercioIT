@@ -1,5 +1,5 @@
 <?php
-RegistroCliente($pdo, $nombre, $apellido, $email, $pass);
+RegistroCliente($nombre, $apellido, $email, $pass);
 
 ?>
 
