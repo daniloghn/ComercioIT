@@ -86,7 +86,7 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
         ]);
         $resultadoVal = $stmtVal->rowCount();           
         if ($resultadoVal > 0) {
-            echo "<p class='rta rta-0x007'>La cuenta ya existe</p>";;
+            echo "<p class='rta rta-0x007'>La cuenta ya existe</p>";
         } elseif ($resultadoVal == 0) {
             $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
             $date = new DateTime('', new DateTimeZone('America/Tegucigalpa'));
@@ -107,6 +107,11 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
                 'token' => $token, 
                 'validado' => 0
             ]);
+
+            require 'PHPMailer/PHPMailerAutoload.php';
+
+
+            echo "<p class='rta rta-0x008'>Te enviamos un correo a tu cuenta para validar que te pertenece</p>";
         }
     }
 }
