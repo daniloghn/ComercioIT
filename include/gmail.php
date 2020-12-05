@@ -1,14 +1,14 @@
 <?php
 //SMTP needs accurate times, and the PHP time zone MUST be set
 //This should be done in your php.ini, but this is how to do it if you don't have access to that
-$emailEnvio = 'phpmailer69@gmail.com';
-$passEmailEnvio = 'Labs123@';
-$nombreEmailEnvio = 'Prueba';
-$apellidoEmailEnvio = 'PHPMailer';
+$emailEnvio = ;
+$passEmailEnvio = ;
+$nombreEmailEnvio = ;
+$apellidoEmailEnvio = ;
 
-$email = 'danilo.j.gonzalez@gmail.com';
-$nombre = 'Danilo';
-$apellido = 'Gonzalez';
+$email = ;
+$nombre = ;
+$apellido = ;
 
 date_default_timezone_set('America/Tegucigalpa');
 
