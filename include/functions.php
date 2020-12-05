@@ -106,10 +106,8 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
                 'dateSignon' => $dateSignon, 
                 'token' => $token, 
                 'validado' => 0
-            ]);
-
-            require 'PHPMailer/PHPMailerAutoload.php';
-
+            ]);                
+          
 
             echo "<p class='rta rta-0x008'>Te enviamos un correo a tu cuenta para validar que te pertenece</p>";
         }
