@@ -1,3 +1,3 @@
 <?php
-$token = $_GET['token'];
-echo $token;
+ValidacionEmail($token);
+

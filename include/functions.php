@@ -87,6 +87,7 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
         $resultadoVal = $stmtVal->rowCount();           
         if ($resultadoVal > 0) {
             echo "<p class='rta rta-0x007'>La cuenta ya existe</p>";
+            return $token = 0;
         } elseif ($resultadoVal == 0) {
             $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
             $date = new DateTime('', new DateTimeZone('America/Tegucigalpa'));
@@ -107,9 +108,18 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
                 'token' => $token, 
                 'validado' => 0
             ]);                
-          
-
-            echo "<p class='rta rta-0x008'>Te enviamos un correo a tu cuenta para validar que te pertenece</p>";
+            echo "<p class='rta rta-0x008'>Te enviamos un correo a tu cuenta para validar que te pertenece</br>Si no esta en tu bandeja de entrada, rogamos revises en el SPAM</p>";
+            return $token;
         }
+    }
+}
+
+function ValidacionEmail($token)
+{
+    require 'include/connection.php';
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        $token = $_REQUEST['token'];
+        echo $token;
+        
     }
 }
