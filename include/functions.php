@@ -118,8 +118,26 @@ function ValidacionEmail($token)
 {
     require 'include/connection.php';
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        // Recibe la variable $token para validar que la cuenta de correo existe
         $token = $_REQUEST['token'];
-        echo $token;
         
+        $queryVal = 'SELECT * FROM clientes WHERE token = :token';
+        $stmtVal = $pdo->prepare($queryVal);
+        $stmtVal->execute([
+            'token' => $token
+        ]);
+        $resultadoVal = $stmtVal->rowCount();        
+
+        // Valida que realmente exista la cuenta con el token enviado
+        if ($resultadoVal == 1) {
+            $queryUp = "UPDATE clientes SET validado = '1' WHERE token = :token";
+            $stmtUp = $pdo->prepare($queryUp);
+            $stmtUp->execute([
+                'token' => $token
+            ]);
+            header('Location: index.php?page=ingreso');            
+        } else {
+            echo "<p class='rta rta-0x007'>Problemas con el link, comunicacte con el administrador</p>";
+        }        
     }
 }
