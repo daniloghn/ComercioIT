@@ -1,5 +1,9 @@
 <?php
-/* funcion para cargar la pagina */
+/**
+ * Funcion para cargar la pagina
+ * Por default retorna la pagina inicio.php
+ * Si la pagina no existe retorna un Error 404
+ */
 function CargarPagina($page)
 {
     if (isset($_GET["page"])) {
@@ -15,7 +19,9 @@ function CargarPagina($page)
     return include($page . ".php");    
 }
 
-/* funcion mensaje de error contacto */
+/**
+ * Funcion para mostrar mensajes de error custumizados con CSS
+ */
 function MostrarMensaje($rta)
 {
     switch ($rta) {
@@ -38,8 +44,11 @@ function MostrarMensaje($rta)
     return "<p class='rta rta-". $rta . "'>" . $mensaje . "</p>";
 }
 
-/*funcion para Mostrar Productos*/
-
+/**
+ * Funcion para mostrar el listado de productos
+ * Toma el archivo llamado listadoProductos.csv en modo lectura
+ * Devuelve en inicio los productos listados y su imagen
+ */
 function MostrarProductos()
 {    
     $archivo = fopen("listadoProductos.csv", 'r');
@@ -66,7 +75,12 @@ function MostrarProductos()
     fclose($archivo);
 }
 
-// funcion para registrar un nuevo cliente
+/**
+ * Funcion para registrar un nuevo cliente
+ * 1. Primero valida que el cliente existe con el correo electronico
+ * 2. Si el cliente existe, envia un mensaje "La cuenta ya existe" y retorna un token con valor 0
+ * 3. Si el cliente no existe, lo crea y genera un token de validacion de cuenta y retorna el valor del token
+ */
 function RegistroCliente($nombre, $apellido, $email, $pass)
 {
     require 'include/connection.php';
@@ -114,6 +128,13 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
     }
 }
 
+/**
+ * Funcion para validar el token de un nuevo cliente
+ * 1. Recibe el token y valida que por lo menos exista un cliente registrado con ese token
+ * 2. Si el token existe, actualiza la cuenta del cliente en la base de datos con un validado = 1
+ * 3. Redirecciona a la pagina ingreso.php
+ * 3. Si el token no existe, envia un mensaje, notificando problemas con el link para que se comunique con el administrador
+ */
 function ValidacionEmail($token)
 {
     require 'include/connection.php';
