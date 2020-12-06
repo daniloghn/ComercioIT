@@ -1,3 +1,7 @@
+<?php
+LoginUser($email, $password);
+?>
+
 <div class="account_grid">
 	<div class="login-right">
 		<h3>INGRESO DE USUARIO</h3>

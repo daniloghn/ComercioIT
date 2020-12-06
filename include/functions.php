@@ -140,7 +140,7 @@ function ValidacionEmail($token)
     require 'include/connection.php';
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         // Recibe la variable $token para validar que la cuenta de correo existe
-        $token = $_REQUEST['token'];
+        $token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
         
         $queryVal = 'SELECT * FROM clientes WHERE token = :token';
         $stmtVal = $pdo->prepare($queryVal);
@@ -160,5 +160,29 @@ function ValidacionEmail($token)
         } else {
             echo "<p class='rta rta-0x007'>Problemas con el link, comunicacte con el administrador</p>";
         }        
+    }
+}
+
+/**
+ * Funcion para hacer el proceso de ingreso a la plataforma
+ * 1. Recibe por POST el email y la contraseña
+ * 2. Valida y crea una sesion si la informacion es correcta
+ * 3. Sino son correcta envia un mensaje de credenciales incorrectas
+ */
+function LoginUser($email, $password)
+{
+    require 'include/connection.php';
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
+        $password = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;        
+        $query = "SELECT nombre, apellido FROM clientes WHERE email = :email AND password = :password";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'email' => $email,
+            'password' => $password
+        ]);        
+        $resultado = $stmt->fetch();
+        echo $resultado;
+
     }
 }
