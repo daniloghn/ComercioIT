@@ -87,10 +87,10 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
     // Validar conexion por metodo POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Recolexion de variables
-        $nombre = isset($_REQUEST['nombre']) ? $_REQUEST['nombre'] : null;
-        $apellido = isset($_REQUEST['apellido']) ? $_REQUEST['apellido'] : null;
-        $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
-        $pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;        
+        $nombre = isset($_REQUEST['nombre']) ? $_REQUEST['nombre'] : null; //Importante incluir la funcion para que valide que no sea numero y que lo pase la primera letra a mayusculas ucwords 
+        $apellido = isset($_REQUEST['apellido']) ? $_REQUEST['apellido'] : null; //Importante incluir la funcion para que valide que no sea numero y que lo pase la primera letra a mayusculas ucwords 
+        $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null; //Importante validar que el formato sea de correo electronico filter_var($email, FILTER_VALIDATE_EMAIL)
+        $pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null; //Importante validar que tenga por lo menos una letra mayuscula, un numero y un simbolo raro y que sea longitud entre 6 y 12 caracteres
 
         // Validacion de que él email existe
         $querySel = "SELECT * FROM clientes WHERE email = :email";
@@ -189,11 +189,11 @@ function LoginUser($email, $password)
         ]);        
         $resultado = $stmt->fetch();
         if ($resultado['validado'] == '1') {
-            if (password_verify($password, $resultado['password'])) {
-                $resultado['password'] = 0;                
+            if (password_verify($password, $resultado['password'])) {                
                 $_SESSION['email'] = $email;
                 $_SESSION['nombre'] = $resultado['nombre'];
                 $_SESSION['apellido'] = $resultado['apellido'];
+                $resultado = null;                                
 
                 header('Location: index.php?page=inicio');
                 die();
@@ -208,6 +208,12 @@ function LoginUser($email, $password)
     $pdo = null;
 }
 
+/**
+ * Funcion para realizar el logout del comercio
+ * 1. Valida si el metodo es GET y si la variable $salir = 1
+ * 2. Sino no hace nada
+ * 3. Si es verdadero borra seciones, destruye la sesion y redirecciona a la pagina ingreso
+ */
 function LogOut($salir)
 {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -217,8 +223,7 @@ function LogOut($salir)
             unset($_SESSION['nombre']);
             unset($_SESSION['apellido']);
             session_destroy();
-            header('Location: index.php?page=ingreso');
-            
+            header('Location: index.php?page=ingreso');            
         }
     }
 }
