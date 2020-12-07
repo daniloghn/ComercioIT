@@ -93,16 +93,16 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
         $pass = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;        
 
         // Validacion de que él email existe
-        $queryVal = "SELECT * FROM clientes WHERE email = :email";
-        $stmtVal = $pdo->prepare($queryVal);
-        $stmtVal->execute([
+        $querySel = "SELECT * FROM clientes WHERE email = :email";
+        $stmtSel = $pdo->prepare($querySel);
+        $stmtSel->execute([
             'email' => $email
         ]);
-        $resultadoVal = $stmtVal->rowCount();           
-        if ($resultadoVal > 0) {
+        $resultadoSel = $stmtSel->rowCount();           
+        if ($resultadoSel > 0) {
             echo "<p class='rta rta-0x007'>La cuenta ya existe</p>";
-            return $token = 0;
-        } elseif ($resultadoVal == 0) {
+            return $token = 0;            
+        } elseif ($resultadoSel == 0) {
             $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
             $date = new DateTime('', new DateTimeZone('America/Tegucigalpa'));
             $dateSignon = $date -> format('Y-m-d h:i:s');
@@ -123,9 +123,12 @@ function RegistroCliente($nombre, $apellido, $email, $pass)
                 'validado' => 0
             ]);                
             echo "<p class='rta rta-0x008'>Te enviamos un correo a tu cuenta para validar que te pertenece</br>Si no esta en tu bandeja de entrada, rogamos revises en el SPAM</p>";
-            return $token;
+            return $token;            
         }
     }
+    $stmtSel = null;
+    $stmtIns = null;
+    $pdo = null;
 }
 
 /**
@@ -142,32 +145,36 @@ function ValidacionEmail($token)
         // Recibe la variable $token para validar que la cuenta de correo existe
         $token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
         
-        $queryVal = 'SELECT * FROM clientes WHERE token = :token';
-        $stmtVal = $pdo->prepare($queryVal);
-        $stmtVal->execute([
+        $querySel = 'SELECT * FROM clientes WHERE token = :token';
+        $stmtSel = $pdo->prepare($querySel);
+        $stmtSel->execute([
             'token' => $token
         ]);
-        $resultadoVal = $stmtVal->rowCount();        
+        $resultadoSel = $stmtSel->rowCount();        
 
         // Valida que realmente exista la cuenta con el token enviado
-        if ($resultadoVal == 1) {
+        if ($resultadoSel == 1) {
             $queryUp = "UPDATE clientes SET validado = '1' WHERE token = :token";
             $stmtUp = $pdo->prepare($queryUp);
             $stmtUp->execute([
                 'token' => $token
             ]);
-            header('Location: index.php?page=ingreso');            
+            header('Location: index.php?page=ingreso');                       
         } else {
-            echo "<p class='rta rta-0x007'>Problemas con el link, comunicacte con el administrador</p>";
+            echo "<p class='rta rta-0x007'>Problemas con el link, comunicacte con el administrador</p>";            
         }        
     }
+    $stmtUp = null;
+    $stmtSel = null;
+    $pdo = null;
 }
 
 /**
  * Funcion para hacer el proceso de ingreso a la plataforma
  * 1. Recibe por POST el email y la contraseña
- * 2. Valida y crea una sesion si la informacion es correcta
- * 3. Sino son correcta envia un mensaje de credenciales incorrectas
+ * 2. Valida que el usuario este activo, sino notifica que la cuenta no esta activa
+ * 3. Valida que el password sea el correcto, sino notifica que las credenciales no son correctas
+ * 4. Si las credenciales son correctas y el usuario esta activo crea la secion y lo redirecciona a la pagina de inicio. 
  */
 function LoginUser($email, $password)
 {
@@ -175,14 +182,43 @@ function LoginUser($email, $password)
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
         $password = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;        
-        $query = "SELECT nombre, apellido FROM clientes WHERE email = :email AND password = :password";
+        $query = "SELECT nombre, apellido, password, validado FROM clientes WHERE email = :email";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
-            'email' => $email,
-            'password' => $password
+            'email' => $email,            
         ]);        
         $resultado = $stmt->fetch();
-        echo $resultado;
+        if ($resultado['validado'] == '1') {
+            if (password_verify($password, $resultado['password'])) {
+                $resultado['password'] = 0;                
+                $_SESSION['email'] = $email;
+                $_SESSION['nombre'] = $resultado['nombre'];
+                $_SESSION['apellido'] = $resultado['apellido'];
 
+                header('Location: index.php?page=inicio');
+                die();
+            } else {
+                echo "<p class='rta rta-0x007'>Credenciales no validas</p>";                    
+            }
+        } else {
+            echo "<p class='rta rta-0x007'>El usuario no ha sido validado</p>";            
+        }
+    }
+    $stmt = null;
+    $pdo = null;
+}
+
+function LogOut($salir)
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        $salir = isset($_REQUEST['logout']) ? $_REQUEST['logout'] : null;
+        if ($salir == '1') {
+            unset($_SESSION['email']);
+            unset($_SESSION['nombre']);
+            unset($_SESSION['apellido']);
+            session_destroy();
+            header('Location: index.php?page=ingreso');
+            
+        }
     }
 }

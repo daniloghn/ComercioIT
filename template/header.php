@@ -1,3 +1,15 @@
+<?php
+session_start();
+if ($_SESSION) {
+	$nombreLink = $_SESSION['nombre'];
+	$link = 'ingreso&logout=1';
+	LogOut($salir);
+} else {
+	$link = 'ingreso';
+	$nombreLink = 'INGRESAR';
+}
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -31,7 +43,7 @@
 							<a href="ingreso.html"><span></span> TU CUENTA</a>
 						</div-->
 						<ul class="login">
-							<li><a href="index.php?page=ingreso"><span></span> INGRESAR</a></li>
+							<li><a href="index.php?page=<?= $link;?>"><span></span><?= $nombreLink; ?></a></li>
 							&nbsp;|&nbsp;
 							<li><a href="index.php?page=registro">REGISTRARME</a></li>
 							&nbsp;|&nbsp;
