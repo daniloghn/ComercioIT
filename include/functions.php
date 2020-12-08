@@ -57,7 +57,7 @@ function MostrarProductos()
             ?>
             <div class="product-grid">
                 <div class="content_box">
-                    <a href="index.php?page=producto">
+                    <a href="index?page=producto">
                         <div class="left-grid-view grid-view-left">
                             <img src="images/productos/<?php echo $datos[0]; ?>.jpg" class="img-responsive watch-right" alt=""/>
                         </div>
@@ -159,7 +159,7 @@ function ValidacionEmail($token)
             $stmtUp->execute([
                 'token' => $token
             ]);
-            header('Location: index.php?page=ingreso');                       
+            header('Location: index?page=ingreso');                       
         } else {
             echo "<p class='rta rta-0x007'>Problemas con el link, comunicacte con el administrador</p>";            
         }        
@@ -195,7 +195,7 @@ function LoginUser($email, $password)
                 $_SESSION['apellido'] = $resultado['apellido'];
                 $resultado = null;                                
 
-                header('Location: index.php?page=inicio');
+                header('Location: index?page=inicio');
                 die();
             } else {
                 echo "<p class='rta rta-0x007'>Credenciales no validas</p>";                    
@@ -223,7 +223,7 @@ function LogOut($salir)
             unset($_SESSION['nombre']);
             unset($_SESSION['apellido']);
             session_destroy();
-            header('Location: index.php?page=ingreso');            
+            header('Location: index?page=ingreso');            
         }
     }
 }

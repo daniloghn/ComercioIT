@@ -29,7 +29,7 @@ if ($token != 0) {
 		$mail->setFrom($emailEnvio, $nombreEmailEnvio . " " . $apellidoEmailEnvio);
 		$mail->addAddress($email, $nombre . " " . $apellido);
 		$mail->Subject = 'Validacion de cuenta de correo';        
-		$mail->Body    = "Hola " . $nombre . " " . $apellido. " Haz click en el link adjunto para validar tu token: http://localhost:8848/EducacionIT/Programaci%C3%B3n_Web_en_PHP_y_MySQL/ComercioIT/index.php?page=validacion&token=" . $token;
+		$mail->Body    = "Hola " . $nombre . " " . $apellido. " Haz click en el link adjunto para validar tu token: http://localhost:8848/EducacionIT/Programaci%C3%B3n_Web_en_PHP_y_MySQL/ComercioIT/index?page=validacion&token=" . $token;
 
 		if (!$mail->send()) {
 			echo "Mailer Error: " . $mail->ErrorInfo;

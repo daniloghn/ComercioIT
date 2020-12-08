@@ -31,7 +31,7 @@ if ($_SESSION) {
 			<div class="bottom-header">
 				<div class="container">
 					<div class="header-bottom-left">
-						<div class="logo"><a href="index.php?page=inicio">Comercio<strong>IT</strong></a></div>
+						<div class="logo"><a href="index?page=inicio">Comercio<strong>IT</strong></a></div>
 						<!--div class="search">
 							<input type="text" name="q">
 							<input type="submit" value="BUSCAR">
@@ -43,11 +43,11 @@ if ($_SESSION) {
 							<a href="ingreso.html"><span></span> TU CUENTA</a>
 						</div-->
 						<ul class="login">
-							<li><a href="index.php?page=<?= $link;?>"><span></span><?= $nombreLink; ?></a></li>
+							<li><a href="index?page=<?= $link;?>"><span></span><?= $nombreLink; ?></a></li>
 							&nbsp;|&nbsp;
-							<li><a href="index.php?page=registro">REGISTRARME</a></li>
+							<li><a href="index?page=registro">REGISTRARME</a></li>
 							&nbsp;|&nbsp;
-							<li><a href="index.php?page=contacto">CONTACTO</a></li>
+							<li><a href="index?page=contacto">CONTACTO</a></li>
 						</ul>
 						<!--div class="cart"><a href="#"><span></span>CART</a></div-->
 						<div class="clearfix"></div>

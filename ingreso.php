@@ -21,7 +21,7 @@ LoginUser($email, $password);
 	</div>	
 	<div class=" login-left">
 		<h3>¿NUEVO USUARIO?</h3>
-		<a class="acount-btn" href="index.php?page=registro">Crear una cuenta</a>
+		<a class="acount-btn" href="index?page=registro">Crear una cuenta</a>
 	</div>
 	<div class="clearfix"></div>
 </div>
